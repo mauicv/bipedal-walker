@@ -13,7 +13,7 @@
      <geometry>
        <mesh filename="core.stl"/>
      </geometry>
-     <origin rpy="0 0 0" xyz="0 0 0"/>
+     <origin rpy="0 0 0" xyz="0 0 -5"/>
    </collision>
    <inertial>
      <mass value="10"/>
@@ -25,7 +25,7 @@
 
   <joint name="core_left_hip" type="revolute">
     <axis xyz="0 1 0"/>
-    <limit effort="1000.0" lower="0.0" upper="3.14159" velocity="0.5"/>
+    <limit effort="1000.0" lower="-0.785398" upper="0.785398" velocity="0.5"/>
     <parent link="core"/>
     <child link="left_hip"/>
     <origin xyz="3 0 0"/>
@@ -108,7 +108,7 @@
 
   <joint name="core_right_hip" type="revolute">
     <axis xyz="0 1 0"/>
-    <limit effort="1000.0" lower="0.0" upper="3.14159" velocity="0.5"/>
+    <limit effort="1000.0" lower="0.785398" upper="0.785398" velocity="0.5"/>
     <parent link="core"/>
     <child link="right_hip"/>
     <origin xyz="-3 0 0"/>

@@ -1,6 +1,7 @@
-from src.gym import gym
-from src.control import Connection
+from gym import Gym
+from gym import Connection
 import click
+import numpy as np
 
 
 @click.group()
@@ -11,18 +12,19 @@ def cli(debug):
 
 @cli.command()
 def run_control():
-    env = gym('arm', vis=True)
+    env = Gym('bipedal', var=0, vis=True)
     with Connection() as conn:
         for i in range(10000):
-            state = env.step([0, 0, 0])
-            conn.send(state)
+            pos_state, _ = env.step([])
+            conn.send(pos_state)
 
 
 @cli.command()
 def run_test():
-    env = gym('arm', vis=True)
+    env = Gym('bipedal', var=0.1, vis=True)
     for i in range(10000):
-        env.step([0, 0, 0])
+        random_action = np.random.normal(0, 0.1, size=(6))
+        state, reward = env.step(random_action)
 
 
 if __name__ == "__main__":
