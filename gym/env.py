@@ -4,16 +4,19 @@ import pybullet as p
 import pybullet_data
 from datetime import datetime
 import numpy as np
+from gym.spaces import Box
+
 
 seed(datetime.now())
 TARGET_LOC = np.array([0, 0, 0.28])
 
+PI = 3.14159
 
 HIP_LIMIT = 2*0.785398
 HIP_CENTER = 0.785398
 
-HIP_ROT_LIMIT = 3.14159
-KNEE_LIMIT = 3.14159
+HIP_ROT_LIMIT = PI
+KNEE_LIMIT = PI
 
 
 ACTION_MULT = np.array([
@@ -30,6 +33,14 @@ def map_actions(actions):
 
 class Gym:
     def __init__(self, name, var=0.1, vis=False):
+        self.observation_space = Box(
+            9, [None, None, None, *[2*PI for _ in range(6)]],
+            [None, None, None, *[0 for _ in range(6)]])
+
+        self.action_space = Box(
+            6, [1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 0])
+
         self.var = var
         self.vis = vis
         self.name = name
@@ -70,9 +81,6 @@ class Gym:
         if self.vis:
             time.sleep(1./240.)
         return self._get_state(), self._get_reward()
-
-    # def action_space(self):
-    #     return p.getNumJoints(self.robot_id)
 
     def _get_state(self):
         base_loc = np.array(p.getBasePositionAndOrientation(self.robot_id)[0])

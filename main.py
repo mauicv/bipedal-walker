@@ -22,6 +22,9 @@ def run_control():
 @cli.command()
 def run_test():
     env = Gym('bipedal', var=0.1, vis=True)
+    print(env.action_space)
+    print(env.action_space.high)
+    print(env.action_space.low)
     for i in range(10000):
         random_action = np.random.normal(0, 0.1, size=(6))
         state, reward = env.step(random_action)
