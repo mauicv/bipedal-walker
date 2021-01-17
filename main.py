@@ -126,7 +126,7 @@ def train(ctx, episodes, steps):
             # environment step
             action = agent.get_action(state[None], with_exploration=True)[0]
             next_state, reward, done, _ = env.step(action)
-            replay_buffer.push((state, next_state, action, reward, done))
+            replay_buffer.push((state, next_state, action, -reward, done))
             state = next_state
 
             # training step
@@ -188,8 +188,10 @@ def play(ctx, steps, noise):
     agent.critic.summary()
     for i in range(steps):
         action = agent.get_action(state[None], with_exploration=noise)[0]
+        # print(action)
         state, reward, done, _ = env \
             .step(action)
+        print(reward, action)
         state = state
 
 

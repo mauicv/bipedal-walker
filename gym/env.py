@@ -4,7 +4,7 @@ import pybullet as p
 import pybullet_data
 from datetime import datetime
 import numpy as np
-from numpy import float32
+from numpy import float32, inf
 from gym.spaces import Box
 
 
@@ -30,10 +30,10 @@ class Env:
         self.observation_space = Box(
             (9, ),
             np.array(
-                [None, None, None, *[2*PI for _ in range(6)]],
+                [inf, inf, inf, *[2*PI for _ in range(6)]],
                 dtype=float32),
             np.array(
-                [None, None, None, *[0 for _ in range(6)]],
+                [-inf, -inf, -inf, *[0 for _ in range(6)]],
                 dtype=float32)
         )
         self.action_space = Box(
@@ -93,7 +93,8 @@ class Env:
         self.take_action(actions)
         p.stepSimulation()
         if self.vis:
-            time.sleep(1./240.)
+            pass
+            # time.sleep(1./240.)
         return self._get_state(), self._get_reward(), False, None
 
     def _get_state(self):
